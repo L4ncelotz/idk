@@ -1,0 +1,47 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=3000
+    networks:
+      - frontend
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=4000
+    networks:
+      - frontend
+      - control
+
+  runner:
+    build:
+      context: .
+      dockerfile: apps/runner/Dockerfile
+    expose:
+      - "5000"
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=5000
+    networks:
+      - control
+
+# Two networks enforce the Docker trust boundary at the network layer:
+# web can reach api, api can reach runner, but web can never reach runner
+# directly. Only the runner may access Docker in later phases.
+networks:
+  frontend:
+  control:

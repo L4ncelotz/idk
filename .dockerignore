@@ -1,0 +1,26 @@
+# Version control
+.git
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules
+
+# Build output
+dist
+build
+.next
+*.tsbuildinfo
+
+# Test coverage
+.coverage
+coverage
+
+# Logs
+logs
+
+# OS files
+.DS_Store
